@@ -32,45 +32,55 @@ def run_snippet(filepath):
 
 
 def test_all_snippets():
-    """Test all snippets in the 01-python-one-liners directory"""
-    snippets_dir = "01-python-one-liners"
+    """Test all snippets in all playlist directories"""
+    playlist_dirs = ["01-python-one-liners", "02-python-comprehensions"]
     
-    if not os.path.exists(snippets_dir):
-        print(f"Directory {snippets_dir} not found!")
-        return False
+    all_passed = 0
+    all_failed = 0
     
-    # Get all Python files in the directory
-    python_files = [f for f in os.listdir(snippets_dir) 
-                   if f.endswith('.py')]
-    
-    if not python_files:
-        print(f"No Python files found in {snippets_dir}")
-        return False
-    
-    print(f"Testing {len(python_files)} Python snippets...\n")
-    
-    passed = 0
-    failed = 0
-    
-    for filename in sorted(python_files):
-        filepath = os.path.join(snippets_dir, filename)
-        print(f"Testing {filename}... ", end="")
+    for snippets_dir in playlist_dirs:
+        if not os.path.exists(snippets_dir):
+            print(f"Directory {snippets_dir} not found!")
+            continue
         
-        success, output = run_snippet(filepath)
+        # Get all Python files in the directory
+        python_files = [f for f in os.listdir(snippets_dir) 
+                       if f.endswith('.py')]
         
-        if success:
-            print("✅ PASSED")
-            passed += 1
-        else:
-            print("❌ FAILED")
-            print(f"  Error: {output}")
-            failed += 1
+        if not python_files:
+            print(f"No Python files found in {snippets_dir}")
+            continue
+        
+        print(f"Testing {snippets_dir}: {len(python_files)} Python snippets...")
+        
+        passed = 0
+        failed = 0
+        
+        for filename in sorted(python_files):
+            filepath = os.path.join(snippets_dir, filename)
+            print(f"  {filename}... ", end="")
+            
+            success, output = run_snippet(filepath)
+            
+            if success:
+                print("✅ PASSED")
+                passed += 1
+            else:
+                print("❌ FAILED")
+                print(f"    Error: {output}")
+                failed += 1
+        
+        print(f"  {snippets_dir}: {passed} passed, {failed} failed")
+        print()
+        
+        all_passed += passed
+        all_failed += failed
     
-    print(f"\n" + "="*50)
-    print(f"Results: {passed} passed, {failed} failed")
-    print(f"Success rate: {passed/(passed+failed)*100:.1f}%")
+    print("="*50)
+    print(f"Overall Results: {all_passed} passed, {all_failed} failed")
+    print(f"Success rate: {all_passed/(all_passed+all_failed)*100:.1f}%")
     
-    return failed == 0
+    return all_failed == 0
 
 
 if __name__ == "__main__":

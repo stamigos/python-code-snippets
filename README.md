@@ -17,7 +17,8 @@ The repository is organized into playlists, each focusing on a specific theme:
 ### 📋 Available Playlists
 
 1. **[Python One-Liners](./01-python-one-liners/)** - Powerful single-line solutions
-2. More playlists coming soon...
+2. **[Python Comprehensions](./02-python-comprehensions/)** - Elegant data transformations
+3. More playlists coming soon...
 
 ## 🚀 How to Use
 
